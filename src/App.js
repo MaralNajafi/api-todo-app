@@ -1,5 +1,9 @@
+import AppContainer from "./components/AppContainer";
+
 function App() {
-  return <div>Hello, World!</div>;
+  return <div>
+    <AppContainer />
+  </div>;
 }
 
 export default App;
