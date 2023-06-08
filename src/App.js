@@ -1,9 +1,7 @@
 import AppContainer from "./components/AppContainer";
-
+import "./App.css";
 function App() {
-  return (
-      <AppContainer />
-  );
+  return <AppContainer />;
 }
 
 export default App;

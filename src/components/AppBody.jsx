@@ -19,9 +19,6 @@ const AppBody = () => {
       console.log(error);
     }
   };
-  useEffect(() => {
-    handleGetTodos();
-  }, [toggle]); //whenever toggle changes fetch data will be triggered
 
   const handleDelete = async (id) => {
     try {
@@ -38,16 +35,81 @@ const AppBody = () => {
     }
   };
 
+  const handleCheck = async (id) => {
+    const todo = todos.find((todo) => {
+      return +todo.id === +id;
+    });
+    try {
+      const response = await fetch(`http://localhost:3000/todos/${id}`, {
+        method: "PUT",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          ...todo,
+          isChecked: !todo.isChecked,
+        }),
+      });
+      if (response.ok) {
+        dispatch(toggler());
+      } else {
+        throw new Error();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleEdit = async (event, id) => {
+    const todo = todos.find((todo) => {
+      return +todo.id === +id;
+    });
+    try {
+      const response = await fetch(`http://localhost:3000/todos/${id}`, {
+        method: "PUT",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          ...todo,
+          content: event.target.innerText,
+        }),
+      });
+      if (response.ok) {
+        dispatch(toggler());
+      } else {
+        throw new Error();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    handleGetTodos();
+  }, [toggle]); //whenever toggle changes fetch data will be triggered
+
   const todoItems = todos.map((todo) => {
     return (
       <li key={todo.id}>
-        {todo.content}{" "}
+        <span
+          className={todo.isChecked ? "checked" : ""}
+          contentEditable={todo.isChecked ? false : ""}
+          onBlur={(event) => {
+            handleEdit(event, todo.id);
+          }}
+        >
+          {todo.content}
+        </span>{" "}
         <button
           onClick={() => {
             handleDelete(todo.id);
           }}
         >
           delete
+        </button>
+        <button
+          onClick={() => {
+            handleCheck(todo.id);
+          }}
+        >
+          {todo.isChecked ? "uncheck" : "check"}
         </button>
       </li>
     );

@@ -1,0 +1,5 @@
+.checked {
+  text-decoration: line-through;
+  color: #5b5b5b;
+  pointer-events: none;
+}
