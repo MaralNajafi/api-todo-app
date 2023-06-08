@@ -1,7 +1,11 @@
 import { useState } from "react";
-
+import { useSelector, useDispatch } from "react-redux";
+import { toggler } from "../features/getToggle/toggleSlice";
 const AppHeader = () => {
+  const toggle = useSelector((state) => state.toggler.toggle);
+  const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState("");
+
   const handleChange = (event) => {
     setInputValue(event.target.value);
   };
@@ -28,6 +32,7 @@ const AppHeader = () => {
       });
       if (fetchAPI.ok) {
         handleReset();
+        dispatch(toggler());
       } else {
         throw new Error();
       }
