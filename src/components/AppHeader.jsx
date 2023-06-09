@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { toggler } from "../features/getToggle/toggleSlice";
 const AppHeader = () => {
-  const toggle = useSelector((state) => state.toggler.toggle);
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState("");
 
@@ -23,7 +22,7 @@ const AppHeader = () => {
   const handleAddTodo = async (event) => {
     event.preventDefault();
     try {
-      const fetchAPI = await fetch("http://localhost:3000/todos", {
+      const fetchAPI = await fetch("http://localhost:8000/todos", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

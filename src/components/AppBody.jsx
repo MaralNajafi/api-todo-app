@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toggler } from "../features/getToggle/toggleSlice";
+import Todo from "./Todo";
 
 const AppBody = () => {
   const [todos, setTodos] = useState([]);
   const dispatch = useDispatch();
   const toggle = useSelector((state) => state.toggler.toggle);
+
   const handleGetTodos = async () => {
     try {
-      const fetchAPI = await fetch("http://localhost:3000/todos");
+      const fetchAPI = await fetch("http://localhost:8000/todos");
       const data = await fetchAPI.json();
       if (fetchAPI.ok) {
         setTodos(data);
@@ -22,7 +24,7 @@ const AppBody = () => {
 
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3000/todos/${id}`, {
+      const response = await fetch(`http://localhost:8000/todos/${id}`, {
         method: "DELETE",
       });
       if (response.ok) {
@@ -40,7 +42,7 @@ const AppBody = () => {
       return +todo.id === +id;
     });
     try {
-      const response = await fetch(`http://localhost:3000/todos/${id}`, {
+      const response = await fetch(`http://localhost:8000/todos/${id}`, {
         method: "PUT",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
@@ -63,7 +65,7 @@ const AppBody = () => {
       return +todo.id === +id;
     });
     try {
-      const response = await fetch(`http://localhost:3000/todos/${id}`, {
+      const response = await fetch(`http://localhost:8000/todos/${id}`, {
         method: "PUT",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
@@ -87,37 +89,21 @@ const AppBody = () => {
 
   const todoItems = todos.map((todo) => {
     return (
-      <li key={todo.id}>
-        <span
-          className={todo.isChecked ? "checked" : ""}
-          contentEditable={todo.isChecked ? false : ""}
-          onBlur={(event) => {
-            handleEdit(event, todo.id);
-          }}
-        >
-          {todo.content}
-        </span>{" "}
-        <button
-          onClick={() => {
-            handleDelete(todo.id);
-          }}
-        >
-          delete
-        </button>
-        <button
-          onClick={() => {
-            handleCheck(todo.id);
-          }}
-        >
-          {todo.isChecked ? "uncheck" : "check"}
-        </button>
-      </li>
+      <Todo
+        key={todo.is}
+        id={todo.id}
+        content={todo.content}
+        isChecked={todo.isChecked}
+        handleCheck={handleCheck}
+        handleDelete={handleDelete}
+        handleEdit={handleEdit}
+      />
     );
   });
 
   return (
     <div>
-      <ul>{todoItems.length > 0 && todoItems}</ul>
+      <ul>{todoItems.length > 0 ? todoItems : "No Tasks Yet"}</ul>
     </div>
   );
 };
