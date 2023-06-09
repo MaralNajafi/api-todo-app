@@ -5,10 +5,13 @@ import Todo from "./Todo";
 
 const AppBody = () => {
   const [todos, setTodos] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isFailed, setIsFailed] = useState(false);
   const dispatch = useDispatch();
   const toggle = useSelector((state) => state.toggler.toggle);
 
   const handleGetTodos = async () => {
+    setIsLoading(true);
     try {
       const fetchAPI = await fetch("http://localhost:8000/todos");
       const data = await fetchAPI.json();
@@ -18,21 +21,28 @@ const AppBody = () => {
         throw new Error();
       }
     } catch (error) {
+      setIsLoading(false);
+      setIsFailed(true);
       console.log(error);
     }
   };
 
   const handleDelete = async (id) => {
+    setIsLoading(true);
     try {
       const response = await fetch(`http://localhost:8000/todos/${id}`, {
         method: "DELETE",
       });
       if (response.ok) {
+        setIsLoading(false);
+        setIsFailed(false);
         dispatch(toggler());
       } else {
         throw new Error();
       }
     } catch (error) {
+      setIsLoading(false);
+      setIsFailed(true);
       console.log(error);
     }
   };
@@ -41,6 +51,7 @@ const AppBody = () => {
     const todo = todos.find((todo) => {
       return +todo.id === +id;
     });
+    setIsLoading(true);
     try {
       const response = await fetch(`http://localhost:8000/todos/${id}`, {
         method: "PUT",
@@ -51,11 +62,15 @@ const AppBody = () => {
         }),
       });
       if (response.ok) {
+        setIsLoading(false);
+        setIsFailed(false);
         dispatch(toggler());
       } else {
         throw new Error();
       }
     } catch (error) {
+      setIsLoading(false);
+      setIsFailed(true);
       console.log(error);
     }
   };
@@ -64,6 +79,7 @@ const AppBody = () => {
     const todo = todos.find((todo) => {
       return +todo.id === +id;
     });
+    setIsLoading(true);
     try {
       const response = await fetch(`http://localhost:8000/todos/${id}`, {
         method: "PUT",
@@ -74,11 +90,15 @@ const AppBody = () => {
         }),
       });
       if (response.ok) {
+        setIsLoading(false);
+        setIsFailed(false);
         dispatch(toggler());
       } else {
         throw new Error();
       }
     } catch (error) {
+      setIsLoading(false);
+      setIsFailed(true);
       console.log(error);
     }
   };
@@ -90,13 +110,15 @@ const AppBody = () => {
   const todoItems = todos.map((todo) => {
     return (
       <Todo
-        key={todo.is}
+        key={todo.id}
         id={todo.id}
         content={todo.content}
         isChecked={todo.isChecked}
         handleCheck={handleCheck}
         handleDelete={handleDelete}
         handleEdit={handleEdit}
+        isLoading={isLoading}
+        isFailed={isFailed}
       />
     );
   });

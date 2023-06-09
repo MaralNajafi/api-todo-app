@@ -4,6 +4,8 @@ import { toggler } from "../features/getToggle/toggleSlice";
 const AppHeader = () => {
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isFailed, setIsFailed] = useState(false);
 
   const handleChange = (event) => {
     setInputValue(event.target.value);
@@ -21,6 +23,7 @@ const AppHeader = () => {
 
   const handleAddTodo = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
     try {
       const fetchAPI = await fetch("http://localhost:8000/todos", {
         method: "POST",
@@ -32,10 +35,14 @@ const AppHeader = () => {
       if (fetchAPI.ok) {
         handleReset();
         dispatch(toggler());
+        setIsFailed(false);
+        setIsLoading(false);
       } else {
         throw new Error();
       }
     } catch (error) {
+      setIsLoading(false);
+      setIsFailed(true);
       console.log(error);
     }
   };
@@ -50,7 +57,9 @@ const AppHeader = () => {
             handleChange(event);
           }}
         />
-        <button type="submit">add</button>
+        <button type="submit">
+          {isLoading ? "loading" : isFailed ? "try again" : "add"}
+        </button>
       </form>
     </div>
   );

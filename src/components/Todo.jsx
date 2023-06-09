@@ -7,6 +7,8 @@ const Todo = ({
   handleEdit,
   handleCheck,
   handleDelete,
+  isLoading,
+  isFailed,
 }) => {
   return (
     <li>
