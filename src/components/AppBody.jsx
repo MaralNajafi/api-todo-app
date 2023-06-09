@@ -102,6 +102,7 @@ const AppBody = () => {
         id={todo.id}
         content={todo.content}
         isChecked={todo.isChecked}
+        date={todo.dateCreated}
         handleCheck={handleCheck}
         handleDelete={handleDelete}
         handleEdit={handleEdit}
