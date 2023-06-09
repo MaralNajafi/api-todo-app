@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { toggler } from "../features/getToggle/toggleSlice";
-import { Input, InputGroup, InputRightElement, Button } from "@chakra-ui/react";
+import { Input, InputGroup, Button } from "@chakra-ui/react";
 const AppHeader = () => {
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState("");

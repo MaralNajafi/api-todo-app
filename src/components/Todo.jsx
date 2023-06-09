@@ -33,6 +33,9 @@ const Todo = ({
             contentEditable={isChecked ? false : ""}
             onBlur={(event) => {
               handleEdit(event, id);
+              if (event.target.innerText === "") {
+                handleDelete(id);
+              }
             }}
           >
             {content}
