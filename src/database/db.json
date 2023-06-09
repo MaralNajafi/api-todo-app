@@ -1,3 +1,22 @@
 {
-  "todos": []
+  "todos": [
+    {
+      "content": "erhgoeo",
+      "dateCreated": "6/9/2023, 10:57:15 AM",
+      "isChecked": false,
+      "id": 1
+    },
+    {
+      "content": "ehphef",
+      "dateCreated": "6/9/2023, 10:57:16 AM",
+      "isChecked": false,
+      "id": 2
+    },
+    {
+      "content": "whefpw",
+      "dateCreated": "6/9/2023, 10:57:17 AM",
+      "isChecked": false,
+      "id": 3
+    }
+  ]
 }

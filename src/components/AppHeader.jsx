@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { toggler } from "../features/getToggle/toggleSlice";
+import { Input, InputGroup, InputRightElement, Button } from "@chakra-ui/react";
 const AppHeader = () => {
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState("");
@@ -47,21 +48,27 @@ const AppHeader = () => {
     }
   };
   return (
-    <div>
       <form onSubmit={handleAddTodo}>
-        <input
-          required
-          value={inputValue}
-          type="text"
-          onChange={(event) => {
-            handleChange(event);
-          }}
-        />
-        <button type="submit">
-          {isLoading ? "loading" : isFailed ? "try again" : "add"}
-        </button>
+        <InputGroup size="md" gap={"0.5rem"} position={"relative"}>
+          <Input
+            required
+            value={inputValue}
+            type="text"
+            onChange={(event) => {
+              handleChange(event);
+            }}
+          />
+
+          <Button
+            colorScheme="green"
+            type="submit"
+            isLoading={isLoading}
+            textTransform={"capitalize"}
+          >
+            {isFailed ? "try again" : "add"}
+          </Button>
+        </InputGroup>
       </form>
-    </div>
   );
 };
 
