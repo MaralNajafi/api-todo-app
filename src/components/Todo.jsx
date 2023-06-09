@@ -29,8 +29,10 @@ const Todo = ({
             }}
             flexGrow={1}
             maxW={"25ch"}
-            className={isChecked ? "checked" : ""}
             contentEditable={isChecked ? false : ""}
+            textDecoration={isChecked ? "line-through" : ""}
+            color={isChecked ? "gray.600" : ""}
+            pointerEvents={isChecked ? "none" : ""}
             onBlur={(event) => {
               handleEdit(event, id);
               if (event.target.innerText === "") {
